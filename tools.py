@@ -8,6 +8,7 @@ from sqlalchemy.testing.plugin.plugin_base import engines
 
 # inititlaize the tool for internet searching capabilities
 google_news_tool = SerperDevTool(engine="google news",n_results=20)
+google_tool = SerperDevTool(engine="google",n_results=20)
 
 scrape_tool = ScrapeWebsiteTool()
 

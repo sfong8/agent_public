@@ -2,7 +2,7 @@ from crewai import Agent
 from textwrap import dedent
 import os
 from crewai import Agent
-from tools import google_news_tool,scrape_tool
+from tools import google_news_tool,scrape_tool,google_tool
 from dotenv import load_dotenv
 # from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import LLM
@@ -14,7 +14,8 @@ os.environ['GEMINI_API_KEY'] = "AIzaSyCUL6FMSbkJhzu1Xh0f4xrYj5Q_LGFFfzE"
 # You can also define custom tasks in tasks.py
 llm = LLM(model='gemini/gemini-1.5-flash',
                             verbose=True,
-                            temperature=0.2,
+                            temperature=0.1,
+          # stream=True , # Enable streaming
           max_tokens=100_000)
 
 Webcrawler   = Agent(
@@ -27,16 +28,37 @@ Your expertise lies in identifying the most relevant source URLs containing info
             verbose=True,
             llm=llm,
         )
-
+esg_Webcrawler   = Agent(
+            role="ESG Researcher Searcher",
+            backstory=dedent("""You’re an ESG researcher renowned for uncovering the latest ESG information for the following company {company_name}.
+Your expertise lies in identifying the most relevant source URLs containing ESG information about {company_name}."""),
+            goal=dedent("Find the latest and most relevant ESG information for company {company_name}"""),
+             tools=[google_tool],
+            allow_delegation=False,
+            verbose=True,
+            llm=llm,
+        )
 Webscraper= Agent(
             role="Specialist in Scraping the important information from different websites about the company {company_name}.",
             backstory=dedent("""You are a Webpage Extractor agent, you extract the text from the following urls."""),
-            goal=dedent("""Find the latest news about company {company_name} from different URLs you get from Web_crawler and extracting the important information about the company {company_name}"""),
+            goal=dedent("""Find the latest news and information about company {company_name} from different URLs you get from Web_crawler and extracting the important information about the company {company_name}"""),
             tools=[scrape_tool],
             allow_delegation=False,
             verbose=True,
             llm=llm,
         )
+
+ESG_Webscraper= Agent(
+            role="Specialist in Scraping the important information from different websites about the company {company_name}.",
+            backstory=dedent("""You are a Webpage Extractor agent, you extract the text from the following urls."""),
+            goal=dedent("""Find the ESG information about company {company_name} from different URLs you get from ESG_Web_crawler and extracting the ESG important information about the company {company_name}"""),
+            tools=[scrape_tool],
+            allow_delegation=False,
+            verbose=True,
+            llm=llm,
+        )
+
+
 ReportAnalyst= Agent(
         role="""Specialist in creating a Report from the provided context related to the company {company_name} for a relationship manager preparing for a client meeting. """,
 
@@ -45,6 +67,16 @@ ReportAnalyst= Agent(
         allow_delegation=False,
         llm=llm,
                 )
+
+ESG_ReportAnalyst= Agent(
+        role="""Specialist in creating an ESG Report from the provided context related to the company {company_name} for a relationship manager preparing for a client meeting. """,
+
+        goal="Create detailed ESG reports based on {company_name} with the help of data from Webscraper.",
+        backstory="You’re a meticulous analyst with a keen eye for detail. You’re known for your ability to turn complex data into clear and concise reports, making it easy for others to understand and act on the information you provide.",
+        allow_delegation=False,
+        llm=llm,
+                )
+
 manager = Agent(
         role="Manager",
         memory=True,

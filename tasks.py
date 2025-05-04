@@ -1,7 +1,7 @@
 # To know more about the Task class, visit: https://docs.crewai.com/concepts/tasks
 from crewai import Task
 from textwrap import dedent
-from tools import google_news_tool,scrape_tool
+from tools import google_news_tool,scrape_tool,google_tool
 from agents import *
 
 google_news_search=Task(
@@ -14,7 +14,27 @@ google_news_search=Task(
             tools=[google_news_tool],
             agent=Webcrawler,
         )
-
+ESG_search=Task(
+            description=dedent(
+                """
+            Google to find the most relevant webpages about ESG related to {company_name} and return a list URLS of the {number_of_articles} articles. - search query should include 'ESG policies and news' 
+        """
+            ),
+            expected_output="Return only the URLs (link from the tool output) containing the most relevant information about company {company_name}",
+            tools=[google_tool],
+            agent=esg_Webcrawler,
+        )
+esg_webpage_extraction   = Task(
+            description=dedent(
+                """
+            Scrape the websites for the Latest news and articles related to {company_name}. Note, it is ok if you cannot extract the text from the URL, just move onto the next one.
+        """
+            ),
+            expected_output="Return extracted content about company {company_name}",
+            agent=ESG_Webscraper,
+            tools=[scrape_tool],
+            context=[ESG_search]
+        )
 webpage_extraction   = Task(
             description=dedent(
                 """
@@ -42,9 +62,31 @@ Key Risks: Highlight any key risks or uncertainties mentioned in the news that c
 industry trends: Identify any relevant industry trends or developments that could impact the client's business or the banking relationship.
 Source Citation: Always cite your sources so the relationship manager can easily verify the information.
 Focus: Focus on news that would be relevant to a corporate banking relationship, such as financial performance, strategic initiatives, and potential risks.
+No need to include date on the report.
 """
             ),
             expected_output="A fully fledge reports with the latest news about {company_name}",
             agent=ReportAnalyst,
             context=[webpage_extraction]
+        )
+
+
+createESGReport= Task(
+            description=dedent("""Review the ESG related context you got about {company_name} and expand it into a full section for a report.
+Make sure the report is detailed and contains any and all relevant information. It is fine the Webscraper cannot extract all the information from the URLs, as long as you have atleast one source, you can create the report.
+Remember to cite your sources.
+This report should include some of the following if possible:
+Company Overview and Context - including the company's mission, vision, and values.
+ESG Overview - including the company's ESG strategy, goals, and commitments.
+ESG Performance Metrics - including the company's ESG performance metrics and targets.
+Environmental Factors (E)
+Social Factors (S)
+Governance Factors (G)
+Areas of concern - including any areas of concern or controversy related to the company's ESG practices.
+No need to include date on the report.
+"""
+            ),
+            expected_output="A fully fledge ESG report  about {company_name}",
+            agent=ESG_ReportAnalyst,
+            context=[esg_webpage_extraction]
         )
