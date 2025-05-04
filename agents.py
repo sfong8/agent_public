@@ -38,7 +38,7 @@ Webscraper= Agent(
             llm=llm,
         )
 ReportAnalyst= Agent(
-        role="Specialist in creating a Report from the provided context related to the company {company_name}",
+        role="""Specialist in creating a Report from the provided context related to the company {company_name} for a relationship manager preparing for a client meeting. """,
 
         goal="Create detailed reports based on {company_name} with the help of data from Webscraper.",
         backstory="You’re a meticulous analyst with a keen eye for detail. You’re known for your ability to turn complex data into clear and concise reports, making it easy for others to understand and act on the information you provide.",

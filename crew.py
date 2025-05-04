@@ -9,7 +9,7 @@ os.environ['GEMINI_API_KEY'] = "AIzaSyCUL6FMSbkJhzu1Xh0f4xrYj5Q_LGFFfzE"
 # call gemini model
 llm = LLM(model='gemini/gemini-1.5-flash',
                             verbose=True,
-                            temperature=0.3,
+                            temperature=0.1,
                             )
 
 
