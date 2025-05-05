@@ -10,11 +10,13 @@ load_dotenv()
 os.environ['GEMINI_API_KEY'] = "AIzaSyCUL6FMSbkJhzu1Xh0f4xrYj5Q_LGFFfzE"
 
 
-llm = LLM(model='gemini/gemini-2.0-flash',
+llm = LLM(
+    model='gemini/gemini-2.0-flash',
+# model='gemini/gemini-2.0-flash',
                             verbose=True,
                             temperature=0.3,
           # stream=True , # Enable streaming
-          max_tokens=200_000)
+          max_tokens=900_000)
 
 Webcrawler   = Agent(
             role="Lead News Investigator",

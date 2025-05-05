@@ -30,6 +30,7 @@ webpage_extraction   = Task(
             description=dedent(
                 """
             For each URL provided in the context, extract the full text content of the webpage, focusing on information directly related to {company_name}.  Identify and extract key facts, figures, statements, and events that are relevant to understanding the company's activities, performance, and industry context.  If extraction fails for a particular URL, log the failure and proceed to the next URL.
+            Note: if the extracted text is too long (over 100k tokens) then summarize it to a maximum of 1000 words.
         """
             ),
             expected_output="A dictionary where each key is a URL from the context and the corresponding value is the extracted text content from that URL.  If extraction failed for a URL, the value should be an error message indicating the failure.",
@@ -42,6 +43,7 @@ esg_webpage_extraction   = Task(
             description=dedent(
                 """
             For each URL provided in the context, extract the relevant ESG data, key findings, and supporting information related to {company_name}. Focus on extracting information about the company's environmental impact, social responsibility, and governance practices. If extraction fails for a particular URL, log the failure and proceed to the next URL.
+        Note: if the extracted text (from url) is too long (over 100k tokens) then summarize it to a maximum of 1000 words.
         """
             ),
             expected_output="A dictionary where each key is a URL from the context and the corresponding value is the extracted ESG data and information from that URL. If extraction failed for a URL, the value should be an error message indicating the failure.",

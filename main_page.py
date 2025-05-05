@@ -2,7 +2,6 @@ import pandas as pd
 import streamlit as st
 import time
 import random
-from raw_text import *
 from crew import esg_crew,crew
 from datetime import datetime
 today_date_str = datetime.now().strftime("%Y-%m-%d")
@@ -78,7 +77,7 @@ def main():
                         d = json.load(f)
                     st.json(d, expanded=False)
                 st.markdown(news_results.raw)
-
+            time.sleep(60)
             st.markdown(f"## ESG Insights on {st.session_state.company_select}")
             with st.spinner('Fetching ESG articles and Generating ESG Report...'):
                 esg_results = esg_crew.kickoff(inputs = {'company_name':st.session_state.company_select, 'number_of_articles':10,'today_date':today_date_str})
