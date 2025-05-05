@@ -29,20 +29,19 @@ crew = Crew(
     tasks=[google_news_search, webpage_extraction,createReport],
     planning=True,
     planning_llm=llm,
-
+max_rpm=12,
             verbose=True,
             process=Process.sequential,
 output_log_file='crew_log.json'
          )
-# esg_crew = Crew(
-#     agents=[esg_Webcrawler, ESG_Webscraper,ESG_ReportAnalyst],
-#     tasks=[ESG_search, esg_webpage_extraction,createESGReport],
-#     planning=True,
-#     planning_llm=llm,
-#
-# step_callback = step_callback,
-#             verbose=True,
-#             process=Process.sequential
-#         )
-today_date_str = datetime.now().strftime("%Y-%m-%d")
-result = crew.kickoff(inputs = {'company_name':'Barclays Bank', 'number_of_articles':10,'today_date':today_date_str})
+esg_crew = Crew(
+    agents=[esg_Webcrawler, ESG_Webscraper,ESG_ReportAnalyst],
+    tasks=[ESG_search, esg_webpage_extraction,createESGReport],
+    planning=True,
+    planning_llm=llm,
+max_rpm=12,
+output_log_file='esg_crew_log.json',
+            verbose=True,
+            process=Process.sequential
+        )
+

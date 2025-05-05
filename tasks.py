@@ -52,7 +52,7 @@ esg_webpage_extraction   = Task(
 
 createReport= Task(
             description=dedent("""
-            Synthesize the extracted news article content into a concise and informative report for the Relationship Manager, focusing on information relevant to a corporate banking relationship.  The report should include the following sections, if possible, based on the available information:
+            Synthesize the extracted news article content into an informative report for the Relationship Manager. The report should include the following sections, if possible, based on the available information:
 
             *   **Latest Performance:** A brief overview of the company's recent financial performance, including key metrics (e.g., revenue, profit, stock price if publicly traded) and any significant trends.
             *   **Good News:** Highlight any positive news stories, achievements, successful product launches, strategic partnerships, or favorable industry trends.
@@ -66,7 +66,7 @@ createReport= Task(
             Cite all sources using the URLs provided in the context.  Focus on news that would be relevant to a corporate banking relationship, such as financial performance, strategic initiatives, and potential risks.  Do not include dates in the report.  If no information is available for a particular section, omit that section.
             """
             ),
-            expected_output="A concise and informative report summarizing the latest news about {company_name}, with sections covering the topics listed in the description.  The report should be well-organized, clearly written, and cite all sources.",
+            expected_output="An informative report (use markdown bold for the headings, dont use ```) summarizing the latest news about {company_name}, with sections covering the topics listed in the description.  The report should be well-organized, clearly written, and cite all sources.",
             agent=ReportAnalyst,
             context=[webpage_extraction]
         )
@@ -87,7 +87,7 @@ createESGReport= Task(
             Cite all sources using the URLs provided in the context.  Do not include dates in the report.  If no information is available for a particular section, omit that section.
             """
             ),
-            expected_output="A comprehensive ESG performance report for {company_name}, with sections covering the topics listed in the description. The report should be well-organized, clearly written, and cite all sources.",
+            expected_output="A comprehensive ESG performance report for {company_name} (in markdown format using bold for headings,, dont use ```), with sections covering the topics listed in the description. The report should be well-organized, clearly written, and cite all sources.",
             agent=ESG_ReportAnalyst,
             context=[esg_webpage_extraction]
         )

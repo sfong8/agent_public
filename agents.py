@@ -10,11 +10,11 @@ load_dotenv()
 os.environ['GEMINI_API_KEY'] = "AIzaSyCUL6FMSbkJhzu1Xh0f4xrYj5Q_LGFFfzE"
 
 
-llm = LLM(model='gemini/gemini-1.5-flash',
+llm = LLM(model='gemini/gemini-2.0-flash',
                             verbose=True,
-                            temperature=0.1,
+                            temperature=0.3,
           # stream=True , # Enable streaming
-          max_tokens=100_000)
+          max_tokens=200_000)
 
 Webcrawler   = Agent(
             role="Lead News Investigator",
@@ -59,9 +59,10 @@ ESG_Webscraper= Agent(
 
 ReportAnalyst= Agent(
         role="News Report Synthesizer",
-        goal=dedent("Synthesize the extracted news article content into a concise and informative report for the Relationship Manager. The report should highlight key news events, trends, and potential opportunities or challenges for {company_name}. Include source URLs for verification."),
+        goal=dedent("Synthesize the extracted news article content into a informative report for the Relationship Manager. The report should highlight key news events, trends, and potential opportunities or challenges for {company_name}. Include source URLs for verification."),
         backstory=dedent("""You are a skilled report synthesizer with a talent for transforming raw data into actionable insights. You excel at identifying key themes and trends from diverse sources and presenting them in a clear, concise, and compelling manner. You understand the needs of a Relationship Manager and tailor your reports to provide them with the information they need to prepare for client meetings regarding {company_name}."""),
         allow_delegation=False,
+    memory=True,
         llm=llm,
                 )
 
