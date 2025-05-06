@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 # from langchain_google_genai import ChatGoogleGenerativeAI
 from crewai import LLM
 load_dotenv()
-os.environ['GEMINI_API_KEY'] = "AIzaSyCUL6FMSbkJhzu1Xh0f4xrYj5Q_LGFFfzE"
 
 
 llm = LLM(
