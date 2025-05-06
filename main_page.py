@@ -44,7 +44,7 @@ def sidebar(submitted= False):
         }
         </style>
         """, unsafe_allow_html=True)
-    st.sidebar.image("logo_base.jpeg",use_column_width=True)
+    st.sidebar.image("logo_base.jpeg",use_container_width=True)
     st.sidebar.markdown('''<h3 style="color:white;text-align: center"> User: John Smith </h3>''',unsafe_allow_html=True)
     st.sidebar.markdown('''<h3 style="color:white;text-align: center"> Role: RD </h3>''',unsafe_allow_html=True)
     # st.sidebar.markdown('''<h3 style="color:#0068c9"> Tools </h3>''',unsafe_allow_html=True)
