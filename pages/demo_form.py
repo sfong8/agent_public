@@ -72,7 +72,7 @@ def main():
     PDFbyte = get_data()
     col1,col2,col3 = st.columns(3)
     with col1:
-        st.page_link('demo_app.py', label="Go Back", icon='🔙')
+        st.page_link('main_page.py', label="Go Back", icon='🔙')
 
     with col2:
         st.download_button("Download Application Form",file_name="loan_application.pdf",
