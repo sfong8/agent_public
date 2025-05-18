@@ -18,7 +18,12 @@ st.markdown("""<style>
         padding-right; 5rem;
         }
         </style>""", unsafe_allow_html=True)
-st.title('Page title')
+st.title('Automate Loan Application Form')
+@st.cache_data
+def get_data():
+    with open("Loan_Application_GreenLeaf_Organics_ASCII.pdf", "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+    return PDFbyte
 
 if 'lending' not in st.session_state:
     st.session_state.lending = False
@@ -54,12 +59,28 @@ def sidebar(submitted= False):
                         unsafe_allow_html=True)
     st.sidebar.markdown('''<h3 style="color:white;text-align: center"> User: John Smith </h3>''',unsafe_allow_html=True)
     st.sidebar.markdown('''<h3 style="color:white;text-align: center"> Role: RD </h3>''',unsafe_allow_html=True)
+
+
+
 def main():
-    st.markdown("#####  TEST")
     form = pd.read_csv(r'lending_application.csv')
     # form =form.reset_index()
-    form = form.fillna('-')
-    st.dataframe(form,hide_index=True)
+    form = form.fillna('')
+    with st.expander(label = "Supporting Evidence",expanded=False):
+        st.markdown("test")
+    st.data_editor(form,hide_index=True)
+    PDFbyte = get_data()
+    col1,col2,col3 = st.columns(3)
+    with col1:
+        st.page_link('demo_app.py', label="Go Back", icon='🔙')
+
+    with col2:
+        st.download_button("Download Application Form",file_name="loan_application.pdf",
+                           data=PDFbyte,
+        mime="text/pdf",
+        icon=":material/download:",)
+    with col3:
+        st.page_link('pages/demo_form.py', label="Email Loans Team", icon='✉️')
 
 if __name__ == '__main__':
     sidebar()

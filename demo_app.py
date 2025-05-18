@@ -15,7 +15,7 @@ st.markdown("""<style>
         padding-right; 5rem;
         }
         </style>""", unsafe_allow_html=True)
-st.title('Page title')
+st.title('Sales Automation Tool')
 
 if 'lending' not in st.session_state:
     st.session_state.lending = False
@@ -61,8 +61,8 @@ def main():
 
 
     with st.form('form1'):
-        # st.session_state.company_select = st.selectbox('Please Select Client',options=['P-(ai)-oneers PLC','Company XYZ','Company ABC', 'Company 123'])
-        st.session_state.company_select = st.text_input('Please enter in Company name',value = 'Barclays Bank')
+        st.session_state.company_select = st.selectbox('Please Select Client',options=['Select Client','GreenLeaf Organics Ltd','Company XYZ','Company ABC', 'Company 123'])
+        # st.session_state.company_select = st.text_input('Please enter in Company name',value = 'Barclays Bank')
         submitted_button = st.form_submit_button("Submit", on_click=form_button_click)
         # prompts = pd.read_csv(r'prompts.csv')
         # st.dataframe(prompts,hide_index=True)
